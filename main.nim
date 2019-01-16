@@ -1,25 +1,25 @@
 # main.nim
 
-import docopt, parsecfg, smtp, vmvc, os
+import docopt, yaml, smtp, vmvc, os
 # import docopt/value
-import domain
+import domain, ctrl
 
 let doc = """
 Check Certificates.
 
 Usage:
-  check_cert file <cfg_file>  
-  check_cert file <cfg_file> --local
-  check_cert file <cfg_file> --validate-file --validate-sites
-  check_cert file <cfg_file> report <some_txt_file>
-  check_cert file <cfg_file> report <some_txt_file> --dontshow
-  check_cert file <cfg_file> mail
-  check_cert file <cfg_file> mail -y
-  check_cert file <cfg_file> mail <mail_password>
-  check_cert file <cfg_file> report <some_txt_file> mail
-  check_cert file <cfg_file> report <some_txt_file> mail [<mail_password>]
   check_cert -v | --version
   check_cert -h | --help
+  check_cert file <yaml>  
+  check_cert file <yaml> --local
+  check_cert file <yaml> --validate-file --validate-sites
+  check_cert file <yaml> report <some_txt_file>
+  check_cert file <yaml> report <some_txt_file> --dontshow
+  check_cert file <yaml> mail
+  check_cert file <yaml> mail -y
+  check_cert file <yaml> mail <mail_password>
+  check_cert file <yaml> report <some_txt_file> mail
+  check_cert file <yaml> report <some_txt_file> mail [<mail_password>]
 
 Options:
   -h --help	    Show this screen.
@@ -29,26 +29,33 @@ Options:
 """
 
 template fail(errMsg: string) =
-  quit(errMsg, QuitFailure)
+  quit(getCurrentExceptionMsg() & "\n" & errMsg, QuitFailure)
+
+import streams
+
 
 
 proc main() =
   # commandLineParams()
   let args = docopt(doc, version = "0.1")
   echo args
-  if args["file"]:
-    let cfg = $(args["<cfg_file>"])
-    echo cfg
-    if not cfg.fileExists:
+  if not args["file"]:
+    fail("must have file")
+  else:
+    let yaml = $(args["<yaml>"])
+    if not yaml.fileExists:
       fail("file does not exist")
+    else:
+      let fs = newFileStream(yaml)
+      var config: UserInfo
+      try:
+        load(fs, config)
+      except:
+        fail("couldn't load configuration file '" &
+            yaml & "'")
+      finally:
+        fs.close
 
+      ctrl.start(args, config) # by now we have args and config, enough to understand what user requests.
 
 main()
-# proc start(userArgs: UserConfig) =
-#   # starts real program
-
-#   # validate file exists, validate file structure, validate info.
-#   # create info as new object
-#   let info: Info #... creates info from cfg file
-
-#   # start operation.

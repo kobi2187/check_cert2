@@ -1,0 +1,16 @@
+{
+  "sender_server": "smtp.gmail.com",
+  "sender_port": 587,
+  "sender_user": "kobi2187@gmail.com",
+  "receipient_email": "kobi2187@gmail.com",
+  "sites_to_check": [
+    {
+      "site": "en.minghui.org",
+      "port": 443
+    },
+    {
+      "site": "github.com",
+      "port": 443
+    }
+  ]
+}

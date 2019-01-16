@@ -34,10 +34,4 @@ echo | openssl s_client -connect " & host & ":" & $port &
 
 Maybe have a "dry run" mode, without the email sending, to verify information in the ini (or yaml or whatever) file is correct.
 
-I think that's enough for a version 1.0 :-)
-
-Sounds reasonable? btw, this is for Dafa related websites, right?
-
-Best regards, Kobi
-
 I think I'll use a framework I wrote once for that task. (I named it vmvc)
