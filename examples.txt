@@ -1,0 +1,24 @@
+# cfg file will also contain email sending info, except for password.
+
+# command line usage, all api.
+
+check_cert file.cfg --local # mandatory, basic usage (it means validate file)
+check_cert file.cfg --validate-file --validate-sites --report:file.txt (just explicit)
+check_cert file.cfg --report:file.txt (same as above line, implies validate-file, validate-sites.)
+check_cert file.cfg --report:file.txt --dont-show (doesn't show report)
+
+check_cert file.cfg --mail --passwd:xxxx (implies validations)
+check_cert file.cfg --mail 
+  - will ask for password on the next line. # if mail. (just sends the content that would have been produced in file.txt)
+    then shows the report.
+  - confirm that you want to send the report displayed in the mail. 
+check_cert file.cfg --mail -y 
+  # -y is no confirmations. (assumes yes to sending the report (but still displays it)
+check_cert file.cfg --report:file.txt --mail --passwd:xxxx  (can have both local and mail send)
+
+
+
+
+-y
+--local
+--validate-file

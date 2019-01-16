@@ -1,0 +1,43 @@
+# notes for me:
+tell the user looking at the program everything that happens, especially mail part.
+
+# program parts:
+# validations and runtime validation (expected errors)
+validate data
+check and report connection errors
+check and report which sites contain certificates
+
+# actual program
+report problems with certificates
+produce error report
+
+# enhancements: smtp send.
+send error report
+
+
+
+plan:
+CLI only. use docopt. use parsecfg. 
+
+a simple text file, ini style I think, (nim's cfg file)
+
+with (sequence of) email address, and host, port pairs as a sub-block
+  also email to send to, and sender mail info for how to send.
+
+parse and validate host, port then
+
+run the process exec, collect results, print sites that couldn't connect to, and send an e-mail message for those that failed in the results collected.
+
+here is a more specific command:
+echo | openssl s_client -connect " & host & ":" & $port &
+      " 2>/dev/null | openssl x509 -noout -dates"
+
+Maybe have a "dry run" mode, without the email sending, to verify information in the ini (or yaml or whatever) file is correct.
+
+I think that's enough for a version 1.0 :-)
+
+Sounds reasonable? btw, this is for Dafa related websites, right?
+
+Best regards, Kobi
+
+I think I'll use a framework I wrote once for that task. (I named it vmvc)
