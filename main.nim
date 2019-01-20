@@ -13,6 +13,7 @@ Usage:
   check_cert file <yaml>  
   check_cert file <yaml> --local
   check_cert file <yaml> --validate-file --validate-sites
+  check_cert file <yaml> report
   check_cert file <yaml> report <some_txt_file>
   check_cert file <yaml> report <some_txt_file> --dontshow
   check_cert file <yaml> mail
@@ -28,12 +29,9 @@ Options:
   --dontshow    No need to show me the generated report.
 """
 
-template fail(errMsg: string) =
-  quit(getCurrentExceptionMsg() & "\n" & errMsg, QuitFailure)
+
 
 import streams
-
-
 
 proc main() =
   # commandLineParams()

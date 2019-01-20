@@ -22,3 +22,4 @@ proc validity_times*(host: string, port: int): Option[(DateTime,
 
 # example: certificate_validity_times("en.minghui.org", 443)
 # example: certificate_validity_times("github.org", 443)
+# todo: make these unit tests.

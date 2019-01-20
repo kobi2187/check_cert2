@@ -2,4 +2,4 @@
 
 import smtp
 
-proc sendErrorReport() = discard
+proc sendErrorReport() = discard # TODO

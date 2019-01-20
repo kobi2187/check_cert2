@@ -1,0 +1,41 @@
+# notes for me:
+✔ tell the user looking at the program everything that happens, especially mail part. @done(19-01-19 13:31)
+
+# program parts:
+☐ # validations and runtime validation (expected errors)
+✔ validate data @done(19-01-19 13:31)
+☐ check and report connection errors
+☐ check and report which sites contain certificates
+
+# actual program
+✔ report problems with certificates @done(19-01-19 13:53)
+☐ produce error report
+
+# enhancements: smtp send.
+☐ send error report
+
+
+
+plan:
+✔ CLI only. use docopt. use parsecfg. chose yaml instead. @done(19-01-17 10:35)
+
+a simple text file, ini style I think, (nim's cfg file)
+
+✔ with (sequence of) email address, and host, port pairs as a sub-block @done(19-01-17 10:35)
+  ✔ also email to send to, and sender mail info for how to send. @done(19-01-17 10:35)
+
+✔ parse and validate host, port @done(19-01-17 10:35)
+
+✔ run the process exec, @done(19-01-19 13:53)
+✔ collect results, @done(19-01-19 13:53)
+✔ print sites that couldn't connect to, @done(19-01-19 13:53)
+☐ make report - for those that failed in the results collected.
+  - example subject: 2 certificates failing (in 28 days) ... body contains details of operation.
+☐ send an e-mail message with report
+
+here is a more specific command:
+✔ echo | openssl s_client -connect " & host & ":" & $port & " 2>/dev/null | openssl x509 -noout -dates" @done(19-01-19 13:53)
+
+☐ Maybe have a "dry run" mode, without the email sending, to verify information in the ini (or yaml or whatever) file is correct.
+
+✘ I think I'll use a framework I wrote once for that task. (I named it vmvc) @cancelled(19-01-17 13:05)
