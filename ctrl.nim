@@ -86,7 +86,7 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
           echo $timeleft.days & " days left"
 
   proc doMail() =
-    discard
+    discard                   # TODO: mail part.
 
 
   echo "starts real program"
