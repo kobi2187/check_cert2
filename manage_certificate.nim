@@ -1,5 +1,5 @@
 # check_cert
-import system, osproc, strutils, times, strformat, options
+import system, osproc, strutils, times, strformat, options, re
 
 proc validity_times*(host: string, port: int): Option[(DateTime,
   DateTime)] =
@@ -13,8 +13,9 @@ proc validity_times*(host: string, port: int): Option[(DateTime,
   else:
     for x in res.strip.split("\n"):
       let part2 = x.split('=')[1]
-      doAssert part2.endsWith(" GMT")
-      let pt2 = part2.substr(0, part2.len-5) # remove the " GMT" part.
+      # doAssert part2.endsWith(" GMT")
+      var pt2 = part2.replace(re"\s*GMT.*$", "") # substr(0, part2.len-5) # remove the " GMT" part.
+      pt2 = pt2.replace(re"\s{2,}", " ")
       let dt = pt2.parse("MMM d hh:mm:ss UUUU")
       # echo dt
       dates.add(dt)

@@ -10,4 +10,4 @@ sites_to_check:
   - { site: google.com, port: 80 }
   - { site: example.com, port: 80 }
   - { site: github.com, port: 443 }
-  - { site: google.com, port: 890 }
+  # - { site: google.com, port: 890 }

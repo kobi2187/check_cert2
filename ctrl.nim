@@ -46,7 +46,8 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
     echo "checking if website online:"
     var res: seq[(Website, bool)] = @[]
     for website in cfg.sites_to_check:
-      let s = check_site(parseUri(website.site), Port website.port)
+      let s = check_site(website.site, website.port, 450)
+      echo if s: "yes" else: "no"
       res.add((website, s))
     # report the ones
     let failed = res.filter(proc (x: (Website, bool)): bool = not x[1])
@@ -61,22 +62,29 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
   proc doReport() =
     echo "checking for certificates..."
     for website in cfg.sites_to_check:
+      echo website.site
+
       let opt = validity_times(website.site, website.port)
       if opt.isNone:
         #todo: add to report here.
         echo "website: " & website.site & ":" &
             $website.port & "-- couldn't get certificate" #report
       else:
+
         let (timeFrom, timeTo) = opt.get()
+        let timeLeft = timeTo - now()
         if timeFrom > now():
           echo "certificate time starts in the future" #report
-        if timeTo < now() + 60.days: # todo: make 60 configurable. 60 as default
-          let timeLeft = timeTo - now()
+        elif timeTo < now() + 60.days: # todo: make 60 configurable. 60 as default
           if timeLeft.days < 0:
             echo "certificate already expired!" # report
           else:
             echo "certificate expires in " & $timeLeft.days & " days." #report
             # todo: sort by time left, in the report.
+        else:
+          echo "got certificate"
+          echo $timeleft.days & " days left"
+
   proc doMail() =
     discard
 
