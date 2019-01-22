@@ -1,0 +1,11 @@
+☐ save report to file specified.
+☐ check that the report file (when specified) is writable, when starting program or fail.
+☐ do all the mail options.
+☐ handle all command line parameters. (verify)
+☐ send to Kai
+☐ adjust program to accept multiple email,sites pairs.
+☐ change format in yaml, to seq of email, sites. instead of just one per file.
+☐ bump to version 0.2
+☐ test with more websites
+☐ add unit tests
+☐ publish as open source
