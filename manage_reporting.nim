@@ -1,6 +1,9 @@
 # manage_reporting
 import domain, manage_certificate, options, times
 import strutils
+
+include program_info
+
 proc doCertChecking(sites: var seq[CheckedSite]) =
   echo "checking for certificates..."
   for website in sites.mitems:
@@ -31,10 +34,11 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
         echo $website.timeLeft.days & " days left"
 
 
-proc generateReport(version: string, urgentMessage: string; the_rest,
+proc generateReport(progName, version: string, urgentMessage: string;
+    the_rest,
     future_start_note, sites_without_certificates, already_expired: seq[
         CheckedSite]): string =
-  var report = "\n\nThis is a certificate checking report, made by the program 'check_cert', (version " & version & ").\n"
+  var report = "\n\nThis is a certificate checking report, made by the program '" & progName & "', (version " & version & ").\n"
   if urgentMessage.len > 0: report &= "\nMost urgent: " & urgentMessage &
       "\n"
   if already_expired.len > 0:
@@ -85,12 +89,14 @@ proc doReport*(sites: var seq[CheckedSite]): string =
   var urgentMessage: string
   if already_expired.len > 0:
     let expired = already_expired[0]
-    urgentMessage = "Website " & expired.site & " has already expired!"
+    urgentMessage = "Certificate for website " & expired.site &
+        " has already expired!"
   else:
     let soon = the_rest[0]
-    urgentMessage = "Website " & soon.site & " expires in " &
+    urgentMessage = "Certificate for website " & soon.site & " expires in " &
         $soon.timeleft.days & " days"
 
-  result = generateReport("0.1", urgentMessage, the_rest, future_start_note,
+  result = generateReport(progName, version, urgentMessage, the_rest,
+      future_start_note,
       sites_without_certificates, already_expired)
 

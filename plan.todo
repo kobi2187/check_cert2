@@ -29,8 +29,8 @@ a simple text file, ini style I think, (nim's cfg file)
 ✔ run the process exec, @done(19-01-19 13:53)
 ✔ collect results, @done(19-01-19 13:53)
 ✔ print sites that couldn't connect to, @done(19-01-19 13:53)
-☐ make report - for those that failed in the results collected.
-  - example subject: 2 certificates failing (in 28 days) ... body contains details of operation.
+✔ make report - for those that failed in the results collected. @done(19-01-22 07:51)
+  ✔ example subject: 2 certificates failing (in 28 days) ... body contains details of operation. @done(19-01-22 07:51)
 ☐ send an e-mail message with report
 
 here is a more specific command:

@@ -1,6 +1,8 @@
 ☐ save report to file specified.
 ☐ check that the report file (when specified) is writable, when starting program or fail.
 ☐ do all the mail options.
+☐ new timeout option (default is 450ms)
+☐ new option for #days to show in console (ignore certificates that end afterwards) currently hardcoded to 60.
 ☐ handle all command line parameters. (verify)
 ☐ send to Kai
 ☐ adjust program to accept multiple email,sites pairs.
@@ -9,3 +11,4 @@
 ☐ test with more websites
 ☐ add unit tests
 ☐ publish as open source
+☐ move on.
