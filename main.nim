@@ -2,7 +2,7 @@
 
 import docopt, yaml, smtp, vmvc, os
 # import docopt/value
-import domain, ctrl
+import domain, ctrl, util
 
 let doc = """
 Check Certificates.

@@ -2,14 +2,14 @@
 ✔ tell the user looking at the program everything that happens, especially mail part. @done(19-01-19 13:31)
 
 # program parts:
-☐ # validations and runtime validation (expected errors)
+✔ # validations and runtime validation (expected errors) @done(19-01-22 05:00)
 ✔ validate data @done(19-01-19 13:31)
-☐ check and report connection errors
-☐ check and report which sites contain certificates
+✔ check and report connection errors @done(19-01-22 05:00)
+✔ check and report which sites contain certificates @done(19-01-22 06:28)
 
 # actual program
 ✔ report problems with certificates @done(19-01-19 13:53)
-☐ produce error report
+✔ produce error report @done(19-01-22 07:20)
 
 # enhancements: smtp send.
 ☐ send error report

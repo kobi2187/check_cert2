@@ -1,15 +1,23 @@
-template fail*(errMsg: string, lastException: bool = true) =
-  var excMsg = ""
-  if lastException:
-    excMsg = getCurrentExceptionMsg()
-  quit(excMsg & "\n" & errMsg, QuitFailure)
 
 # domain.nim
-import uri, net
+import uri, net, options, times, util
 
 type Website* = object
   site*: string
   port*: int32
+
+
+type CheckedSite* = object
+  site*: string
+  port*: int32
+  connected*: Option[bool]
+  certificateStart*: Option[DateTime]
+  certificateEnd*: Option[DateTime]
+  certFailed*: bool
+
+proc newCheckedSite*(site: string; port: int32): CheckedSite =
+  result.site = site
+  result.port = port
 
 type UserInfo* = object
   sender_server*: string
@@ -29,17 +37,25 @@ proc uri_ok(hostname: string): bool =
 
 
 import strutils
-proc isValid*(it: UserInfo): (string, bool) =
-  result = ("", true)
+type ValidMsg = object
+  info*: string
+  isValid*: bool
+
+proc newValidMsg(info: string = ""; isValid: bool): ValidMsg =
+  result.info = info
+  result.isValid = isValid
+
+proc isValid*(it: UserInfo): ValidMsg =
+  result = newValidMsg(isValid = true)
   if not (it.sender_port == 0 or port_ok(it.sender_port)):
-    return ($it.sender_port, false)
+    return newValidMsg($it.sender_port, false)
   if not (it.sender_server.len == 0 or
     it.sender_server.uri_ok):
-    return (it.sender_server, false)
+    return newValidMsg(it.sender_server, false)
 
   for w in it.sites_to_check:
-    if not w.site.uri_ok: return (w.site, false)
-    if not w.port.port_ok: return ($w.port, false)
+    if not w.site.uri_ok: return newValidMsg(w.site, false)
+    if not w.port.port_ok: return newValidMsg($w.port, false)
 
 
 
