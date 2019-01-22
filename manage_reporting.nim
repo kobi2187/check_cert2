@@ -1,6 +1,6 @@
 # manage_reporting
 import domain, manage_certificate, options, times
-
+import strutils
 proc doCertChecking(sites: var seq[CheckedSite]) =
   echo "checking for certificates..."
   for website in sites.mitems:
@@ -8,7 +8,6 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
 
     let opt = validity_times(website.site, website.port)
     if opt.isNone:
-      #todo: add this to report.
       website.cert_failed = true
       echo "website: " & website.site & ":" &
           $website.port & "-- couldn't get certificate"
@@ -19,15 +18,14 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
       # all set.
 
       if website.hasFutureStartTime:
-        echo "certificate time starts in the future" #todo: add this to report
+        echo "certificate time starts in the future"
 
       elif website.expiresInLessThan(60.days):
         if website.hasExpired:
-          echo "certificate already expired!" # TODO: add as urgent report
+          echo "certificate already expired!"
         else:
           echo "certificate expires in " & $website.timeLeft.days &
-              " days." #todo report
-          # todo: sort by time left, in the report.
+              " days."
       else:
         echo "got certificate"
         echo $website.timeLeft.days & " days left"
@@ -36,31 +34,35 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
 proc generateReport(version: string, urgentMessage: string; the_rest,
     future_start_note, sites_without_certificates, already_expired: seq[
         CheckedSite]): string =
-  var report = "This is a certificate checking report, made by the program 'check_cert', version (" & version & ").\n"
+  var report = "\n\nThis is a certificate checking report, made by the program 'check_cert', (version " & version & ").\n"
+  if urgentMessage.len > 0: report &= "\nMost urgent: " & urgentMessage &
+      "\n"
   if already_expired.len > 0:
-    report &= "sites that already expired:\n\n"
+    report &= "\nsites that already expired:\n"
     for w in already_expired:
       report &= "!!  " & w.site & ":" & $w.port & "\n"
 
   if sites_without_certificates.len > 0:
-    report &= "sites without certificates:\n\n"
+    report &= "\nsites without certificates:\n"
     for w in sites_without_certificates:
       report &= " -  " & w.site & ":" & $w.port & "\n"
 
   if future_start_note.len > 0:
-    report &= "sites whose certificate starts in the future:\n\n"
+    report &= "\nsites whose certificate starts in the future:\n\n"
     for w in future_start_note:
       report &= " NOTE: " & w.site & ":" & $w.port &
           " starts in the future: " &
           $w.certificateStart & "\n"
 
   if the_rest.len > 0:
-    report &= "list of sites by expiry date:\n\n"
+    report &= "\nlist of sites by expiry date:\n"
     for w in the_rest:
-      report &= w.site & ":" & $w.port & "expires in *" & $w.timeLeft.days &
-          "* days\n"
+      report &= "+ [" & align($w.timeLeft.days,
+          4) & " days]  " & w.site & ":" &
+          $w.port &
+          "\n"
 
-
+  result = report
 
 import sequtils, algorithm
 proc doReport*(sites: var seq[CheckedSite]): string =

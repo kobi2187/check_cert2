@@ -85,6 +85,8 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
   var report: string
   if what.report:
     report = doReport(sites)
+    if not args["--dontshow"]:
+      echo report
 
   if what.mail:
     doMail(args, cfg, report)
