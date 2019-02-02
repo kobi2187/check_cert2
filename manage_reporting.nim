@@ -37,7 +37,7 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
 proc generateReport(progName, version: string, urgentMessage: string;
     the_rest,
     future_start_note, sites_without_certificates, already_expired: seq[
-        CheckedSite]): string =
+        CheckedSite]): (string, string) =
   var report = "\n\nThis is a certificate checking report, made by the program '" & progName & "', (version " & version & ").\n"
   if urgentMessage.len > 0: report &= "\nMost urgent: " & urgentMessage &
       "\n"
@@ -66,10 +66,10 @@ proc generateReport(progName, version: string, urgentMessage: string;
           $w.port &
           "\n"
 
-  result = report
+  result = (urgentMessage, report)
 
 import sequtils, algorithm
-proc doReport*(sites: var seq[CheckedSite]): string =
+proc doReport*(sites: var seq[CheckedSite]): (string, string) =
   echo "Starting report here..."
   doCertChecking(sites)
   echo "we have all information needed now."

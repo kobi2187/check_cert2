@@ -19,12 +19,15 @@ proc newCheckedSite*(site: string; port: int32): CheckedSite =
   result.site = site
   result.port = port
 
+type SiteGroup* = object
+  send_to*: seq[string]
+  sites_to_check*: seq[Website]
+
 type UserInfo* = object
   sender_server*: string
   sender_port*: int32
   sender_user*: string
-  receipient_email*: string
-  sites_to_check*: seq[Website]
+  groups*: seq[SiteGroup]
 
 proc port_ok(p: int32): bool =
   result = 0 < p and p < 65536
@@ -53,9 +56,10 @@ proc isValid*(it: UserInfo): ValidMsg =
     it.sender_server.uri_ok):
     return newValidMsg(it.sender_server, false)
 
-  for w in it.sites_to_check:
-    if not w.site.uri_ok: return newValidMsg(w.site, false)
-    if not w.port.port_ok: return newValidMsg($w.port, false)
+  for g in it.groups:
+    for w in g.sites_to_check:
+      if not w.site.uri_ok: return newValidMsg(w.site, false)
+      if not w.port.port_ok: return newValidMsg($w.port, false)
 
 
 
