@@ -12,6 +12,7 @@
 ✔ handle all command line parameters. (verify) @done(19-02-07 11:40)
 ✔ new timeout option (default is 450ms) @done(19-02-07 11:54)
 ✔ new option for #days to show in console (ignore certificates that end afterwards) currently hardcoded to 60. @done(19-02-07 12:08)
+✔ bump version @done(19-02-07 12:10)
 ☐ test with more websites
 ☐ add unit tests
 
