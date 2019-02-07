@@ -13,6 +13,7 @@ type WhatToDo = object
 
 proc implications(args: Table[string, docopt.Value]): WhatToDo =
   var operations = WhatToDo()
+  operations.local = true     # check local anyway
   if args["--local"] or args["--validate-file"]:
     operations.local = true
   if args["--validate-sites"]:
@@ -52,7 +53,10 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
   proc doSites() =
     echo "checking if website online:"
     for website in allSites.mitems:
-      let s = check_site(website.site, website.port, 450)
+      let timeout =
+        if args["--timeout"]: parseInt($args["--timeout"])
+        else: 450             #default timeout
+      let s = check_site(website.site, website.port, timeout)
       website.connected = some(s)
       echo if s: "yes" else: "no"
 
@@ -79,6 +83,7 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
   # validate user info.
   echo "\"calculating\" implications of arguments"
   let what = implications(args)
+  echo what
   if what.local: doLocal()
 
   for w in cfg.groups:

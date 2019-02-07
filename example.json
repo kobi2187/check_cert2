@@ -1,6 +1,6 @@
 {
   "sender_server": "smtp.gmail.com",
-  "sender_port": 587,
+  "sender_port": 465,
   "sender_user": "kobi2187@gmail.com",
   "groups": [
     {

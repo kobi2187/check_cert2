@@ -10,17 +10,15 @@ Check Certificates.
 Usage:
   check_cert -v | --version
   check_cert -h | --help
-  check_cert file <configFile>  
-  check_cert file <configFile> --local
-  check_cert file <configFile> --validate-file --validate-sites
-  check_cert file <configFile> report
-  check_cert file <configFile> report <some_txt_file>
-  check_cert file <configFile> report <some_txt_file> --dontshow
-  check_cert file <configFile> mail
-  check_cert file <configFile> mail -y
-  check_cert file <configFile> mail <mail_password>
-  check_cert file <configFile> report <some_txt_file> mail
-  check_cert file <configFile> report <some_txt_file> mail [<mail_password>]
+  check_cert file <configFile> [--timeout=<timeout>] 
+  check_cert file <configFile> [--local] [--validate-file] [--validate-sites] [--timeout=<timeout>]
+  check_cert file <configFile> report [--timeout=<timeout>] 
+  check_cert file <configFile> report <some_txt_file> [--timeout=<timeout>] 
+  check_cert file <configFile> report <some_txt_file> [--dontshow]  [--timeout=<timeout>] 
+  check_cert file <configFile> mail [--timeout=<timeout>] 
+  check_cert file <configFile> mail <mail_password> [--timeout=<timeout>] 
+  check_cert file <configFile> report <some_txt_file> mail [--timeout=<timeout>] 
+  check_cert file <configFile> report <some_txt_file> mail [<mail_password>] [--timeout=<timeout>] 
 
 Options:
   -h --help	    Show this screen.
@@ -61,10 +59,10 @@ proc loadFromFile(path: string): UserInfo =
   else:
     fail("please pass a yaml or json file", false)
 
-
+import program_info
 proc main() =
   # commandLineParams()
-  let args = docopt(doc, version = "0.1")
+  let args = docopt(doc, version = version)
   echo args
   if not args["file"]:
     fail("must have file")
