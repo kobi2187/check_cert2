@@ -8,3 +8,4 @@
 bin/
 .hg/.hg
 .hg/
+.vscode/

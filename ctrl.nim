@@ -113,10 +113,14 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
       except:
         fail("could not open specified file for writing the report")
 
+    let ignoreAfterDays =
+      if args["--ignoreAfterDays"]: parseInt($args["--ignoreAfterDays"])
+      else: 60
+
     for i, group in cfg.groups:
       var checkThose = group.sites_to_check.mapIt(newCheckedSite(it.site,
           it.port))
-      let (subject, report) = doReport(checkThose)
+      let (subject, report) = doReport(checkThose, ignoreAfterDays)
 
       if not args["--dontshow"]:
         echo report

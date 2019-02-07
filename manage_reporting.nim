@@ -4,7 +4,7 @@ import strutils
 
 include program_info
 
-proc doCertChecking(sites: var seq[CheckedSite]) =
+proc doCertChecking(sites: var seq[CheckedSite], ignoreAfterDays: int) =
   echo "checking for certificates..."
   for website in sites.mitems:
     echo website.site
@@ -23,7 +23,7 @@ proc doCertChecking(sites: var seq[CheckedSite]) =
       if website.hasFutureStartTime:
         echo "certificate time starts in the future"
 
-      elif website.expiresInLessThan(60.days):
+      elif website.expiresInLessThan(ignoreAfterDays.days):
         if website.hasExpired:
           echo "certificate already expired!"
         else:
@@ -69,9 +69,10 @@ proc generateReport(progName, version: string, urgentMessage: string;
   result = (urgentMessage, report)
 
 import sequtils, algorithm
-proc doReport*(sites: var seq[CheckedSite]): (string, string) =
+proc doReport*(sites: var seq[CheckedSite], ignoreAfterDays: int): (string,
+    string) =
   echo "Starting report here..."
-  doCertChecking(sites)
+  doCertChecking(sites, ignoreAfterDays)
   echo "we have all information needed now."
   echo "generating report..."
   #  report: 1) sites that don't have certificates. (this may be a config error)

@@ -10,15 +10,15 @@ Check Certificates.
 Usage:
   check_cert -v | --version
   check_cert -h | --help
-  check_cert file <configFile> [--timeout=<timeout>] 
+  check_cert file <configFile> [--timeout=<timeout>]
   check_cert file <configFile> [--local] [--validate-file] [--validate-sites] [--timeout=<timeout>]
-  check_cert file <configFile> report [--timeout=<timeout>] 
-  check_cert file <configFile> report <some_txt_file> [--timeout=<timeout>] 
-  check_cert file <configFile> report <some_txt_file> [--dontshow]  [--timeout=<timeout>] 
-  check_cert file <configFile> mail [--timeout=<timeout>] 
-  check_cert file <configFile> mail <mail_password> [--timeout=<timeout>] 
-  check_cert file <configFile> report <some_txt_file> mail [--timeout=<timeout>] 
-  check_cert file <configFile> report <some_txt_file> mail [<mail_password>] [--timeout=<timeout>] 
+  check_cert file <configFile> report [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> report <some_txt_file> [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> report <some_txt_file> [--dontshow]  [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> mail [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> mail <mail_password> [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> report <some_txt_file> mail [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
+  check_cert file <configFile> report <some_txt_file> mail [<mail_password>] [--timeout=<timeout>]  [--ignoreAfterDays=<ignoreAfterDays>]
 
 Options:
   -h --help	    Show this screen.
