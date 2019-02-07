@@ -2,15 +2,40 @@
   "sender_server": "smtp.gmail.com",
   "sender_port": 587,
   "sender_user": "kobi2187@gmail.com",
-  "receipient_email": "kobi2187@gmail.com",
-  "sites_to_check": [
+  "groups": [
     {
-      "site": "en.minghui.org",
-      "port": 443
+      "send_to": ["kobi2187@gmail.com"],
+      "sites_to_check": [
+        {
+          "site": "en.minghui.org",
+          "port": 443
+        },
+        {
+          "site": "google.com",
+          "port": 80
+        },
+        {
+          "site": "example.com",
+          "port": 80
+        },
+        {
+          "site": "github.com",
+          "port": 443
+        }
+      ]
     },
     {
-      "site": "github.com",
-      "port": 443
+      "send_to": ["kobi2187@gmail.com"],
+      "sites_to_check": [
+        {
+          "site": "en.minghui.org",
+          "port": 443
+        },
+        {
+          "site": "github.com",
+          "port": 443
+        }
+      ]
     }
   ]
 }

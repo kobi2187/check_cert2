@@ -1,14 +1,18 @@
-☐ save report to file specified.
-☐ check that the report file (when specified) is writable, when starting program or fail.
+✔ send to Kai @done(19-02-03 20:16)
+✔ publish as open source @done(19-02-03 20:16)
+✔ change format in yaml, to seq of email, sites. instead of just one per file. @done(19-02-03 20:16)
+✔ yaml stopped working since nim regression. use json for now. @done(19-02-07 10:56)
+✔ save report to file specified. @done(19-02-07 10:59)
+✔ check that the report file (when specified) is writable, when starting program or fail. @done(19-02-07 10:59)
+✔ adjust program to accept multiple email,sites pairs. @done(19-02-07 11:00)
+✔ bump to version 0.2 @done(19-02-07 11:00)
+✔ check multiple reports. @done(19-02-07 11:03)
+
 ☐ do all the mail options.
 ☐ new timeout option (default is 450ms)
 ☐ new option for #days to show in console (ignore certificates that end afterwards) currently hardcoded to 60.
 ☐ handle all command line parameters. (verify)
-☐ send to Kai
-☐ adjust program to accept multiple email,sites pairs.
-☐ change format in yaml, to seq of email, sites. instead of just one per file.
-☐ bump to version 0.2
 ☐ test with more websites
 ☐ add unit tests
-☐ publish as open source
-☐ move on.
+
+☐ finished. move on.

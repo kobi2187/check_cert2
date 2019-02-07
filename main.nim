@@ -1,6 +1,6 @@
 # main.nim
 
-import docopt, yaml, smtp, vmvc, os
+import docopt, smtp, vmvc, os #, yaml
 # import docopt/value
 import domain, ctrl, util
 
@@ -10,17 +10,17 @@ Check Certificates.
 Usage:
   check_cert -v | --version
   check_cert -h | --help
-  check_cert file <yaml>  
-  check_cert file <yaml> --local
-  check_cert file <yaml> --validate-file --validate-sites
-  check_cert file <yaml> report
-  check_cert file <yaml> report <some_txt_file>
-  check_cert file <yaml> report <some_txt_file> --dontshow
-  check_cert file <yaml> mail
-  check_cert file <yaml> mail -y
-  check_cert file <yaml> mail <mail_password>
-  check_cert file <yaml> report <some_txt_file> mail
-  check_cert file <yaml> report <some_txt_file> mail [<mail_password>]
+  check_cert file <configFile>  
+  check_cert file <configFile> --local
+  check_cert file <configFile> --validate-file --validate-sites
+  check_cert file <configFile> report
+  check_cert file <configFile> report <some_txt_file>
+  check_cert file <configFile> report <some_txt_file> --dontshow
+  check_cert file <configFile> mail
+  check_cert file <configFile> mail -y
+  check_cert file <configFile> mail <mail_password>
+  check_cert file <configFile> report <some_txt_file> mail
+  check_cert file <configFile> report <some_txt_file> mail [<mail_password>]
 
 Options:
   -h --help	    Show this screen.
@@ -31,7 +31,36 @@ Options:
 
 
 
-import streams
+import streams, json, strutils
+
+proc loadFromFile(path: string): UserInfo =
+  if false: assert false
+  #[
+     if path.endsWith(".yaml"):
+
+    let yaml = path
+    if not yaml.fileExists:
+      fail("file does not exist")
+    else:
+      let fs = newFileStream(yaml)
+      var config: UserInfo
+      try:
+        load(fs, config)
+        return config
+      except:
+        fail("couldn't load configuration file '" & yaml & "'")
+      finally:
+        fs.close
+    ]#
+  elif path.endsWith(".json"):
+    let jsonFile = path
+    var fs = newFileStream(jsonFile)
+    let jsonNode = fs.parseJson
+    let obj = jsonNode.to(UserInfo)
+    return obj
+  else:
+    fail("please pass a yaml or json file", false)
+
 
 proc main() =
   # commandLineParams()
@@ -40,20 +69,8 @@ proc main() =
   if not args["file"]:
     fail("must have file")
   else:
-    let yaml = $(args["<yaml>"])
-    if not yaml.fileExists:
-      fail("file does not exist")
-    else:
-      let fs = newFileStream(yaml)
-      var config: UserInfo
-      try:
-        load(fs, config)
-      except:
-        fail("couldn't load configuration file '" &
-            yaml & "'")
-      finally:
-        fs.close
-
-      ctrl.start(args, config) # by now we have args and config, enough to understand what user requests.
+    let configFile = $(args["<configFile>"])
+    let config = loadFromFile(configFile)
+    ctrl.start(args, config) # by now we have args and config, enough to understand what user requests.
 
 main()

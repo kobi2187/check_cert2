@@ -1,8 +1,7 @@
 import docopt
 
 import domain
-import manage_certificate, manage_mailing, manage_network,
-  manage_reporting
+import manage_certificate, manage_mailing, manage_network, manage_reporting
 
 import sugar, strutils
 
@@ -62,7 +61,7 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
     if failed.len > 0:
       echo "failed to connect to websites:"
       for f in failed:
-        echo f
+        echo f.site, ":", $f.port
       fail("Failed to connect to websites listed in config file. please fix.",
         false)
     else:
@@ -110,16 +109,20 @@ proc start*(args: Table[string, docopt.Value], cfg: UserInfo) =
         fail("could not open specified file for writing the report")
 
     for i, group in cfg.groups:
-      var checkThose = group.sites_to_check.mapIt(newCheckedSite(
-          it.site, it.port))
+      var checkThose = group.sites_to_check.mapIt(newCheckedSite(it.site,
+          it.port))
       let (subject, report) = doReport(checkThose)
+
       if not args["--dontshow"]:
         echo report
-      if openedFile: # we append all the reports to this one file.
-        file.write(report)
-        file.write("\n\n" & $(i+1) & ")\n")
 
-      # there is no mail, without report. after each report send the mail.
+      if openedFile: # we append all the reports to this one file.
+        if cfg.groups.len > 1:
+          file.write("\n\n" & $(i+1) & ")\n")
+        file.write(report)
+
+      # mail depends on report, so this block is within it
+      # after each report send the mail.
       if what.mail:
         doMail(args, cfg, group, subject, report, pass)
 

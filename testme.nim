@@ -1,2 +1,14 @@
-import times
-echo now().format("MMM d hh:mm:ss UUUU") & " GMT" & now().format("z")
+import yaml
+
+type X = object
+  a: string
+  b: int
+
+
+let yamlStr = """
+  a: "hi"
+  b: 3
+"""
+
+var output: X
+load(yamlstr, output)
